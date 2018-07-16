@@ -3,15 +3,17 @@
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 from .props import Property
+from threading import Lock
 
 
-class Proppy:
-    """In order to use properties, a class must extend this class
+class MetaProppy(type):
+    """In order to use properties, a class must use this metaclass
 
     Note:
-        Since this is a normal class you can use it with multiple inheritance.
-        You are free to extend `Proppy` *and* other classes as well. Keep in mind,
-        the typical rules of multiple inheritance in Python still apply.
+    Since this is a normal class you can use it with multiple inheritance.
+    You are free to extend `Proppy` and other classes as well at the same
+    time. Keep in mind, the typical rules of multiple inheritance in Python
+    still apply.
 
     """
 
@@ -24,32 +26,27 @@ class Proppy:
         else:
             return propname[:-5]
 
-    def __init__(self):
-        """Initialize properties.
-
-        Iterates through `__dict__` to find all the properties
-        defined in this class. Then, creates instance instance
-        level variables for each one.
-        """
-        d = dict(self.__class__.__dict__)
-        print(str(d))
-        for name, attr in d.items():
+    def __new__(cls, name, bases, d):
+        tmp_d = d.copy()
+        d['_____prop_initializers_____'] = {}
+        for name, attr in tmp_d.items():
             if isinstance(attr, Property):
-                instance_propname = Proppy.__process_propname(name)
-
+                instance_propname = cls.__process_propname(name)
                 initializer = attr.make_property_init(instance_propname)
-
-                initializer(self)
 
                 getter = attr.make_getter(instance_propname)
                 setter = attr.make_setter(instance_propname)
 
-                setattr(self, instance_propname + '__getter', getter)
-                setattr(self, instance_propname + '__setter', setter)
+                d[instance_propname] = property(getter, setter)
+                d['_____prop_initializers_____'][instance_propname
+                                                 ] = initializer
 
-                getter = getattr(self, instance_propname + '__getter')
-                setter = getattr(self, instance_propname + '__setter')
-                setattr(
-                    self.__class__, instance_propname,
-                    property(getter, setter)
-                )
+        return type.__new__(cls, name, bases, d)
+
+    def __init__(self, name, bases, d):
+        initializers = d['_____prop_initializers_____']
+        for name, init in initializers.items():
+            init(self)
+
+        self._lock = Lock()
+        super(object, self).__init__()

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 
-from proppy import Proppy
+from proppy import MetaProppy
 from proppy.props import WriteOnceProperty, Property
 
 
-class TestClass(Proppy):
-    x_prop = Property('Hello')
-    c_prop = WriteOnceProperty(30)
+class TestClass(metaclass=MetaProppy):
+    x__prop = Property('Hello')
+    c__prop = WriteOnceProperty(30)
 
 
 def main():
@@ -15,7 +15,9 @@ def main():
 
     tst1.x = "OK!"
     tst1.c = 100
-    tst1.c = 35
+    tst1.c = 50
+
+    tst2.c = 35
 
     print(tst1.x)
     print(tst1.c)
