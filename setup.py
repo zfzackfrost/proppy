@@ -9,7 +9,5 @@ setup(
     license='MIT',
     packages=['proppy'],
     scripts=['test/proppy-test'],
-    install_requires=[
-        'atomos',
-    ]
+    install_requires=[]
 )

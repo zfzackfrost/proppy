@@ -167,3 +167,5 @@ class WriteOnceProperty(Property):
                 setattr(self, '_' + propname + '__written', True)
 
         return setter
+
+

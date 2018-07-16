@@ -1,9 +1,9 @@
-
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Proppy Core ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
 
 from .props import Property
+
 
 class Proppy:
     """In order to use properties, a class must extend this class
@@ -32,6 +32,7 @@ class Proppy:
         level variables for each one.
         """
         d = dict(self.__class__.__dict__)
+        print(str(d))
         for name, attr in d.items():
             if isinstance(attr, Property):
                 instance_propname = Proppy.__process_propname(name)

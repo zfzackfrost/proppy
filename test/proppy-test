@@ -3,24 +3,27 @@
 from proppy import Proppy
 from proppy.props import WriteOnceProperty, Property
 
+
 class TestClass(Proppy):
-    x__prop = Property('Hello')
-    c__prop = WriteOnceProperty(30)
+    x_prop = Property('Hello')
+    c_prop = WriteOnceProperty(30)
 
 
 def main():
     tst1 = TestClass()
-    tst1.x = 'Hola!'
     tst2 = TestClass()
-    tst2.x = "OK!"
-    tst2.c = 100
-    tst2.c = 50
+
+    tst1.x = "OK!"
+    tst1.c = 100
+    tst1.c = 35
+
     print(tst1.x)
     print(tst1.c)
 
+    print()
+
     print(tst2.x)
     print(tst2.c)
-
 
 if __name__ == '__main__':
     main()
