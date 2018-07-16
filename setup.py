@@ -6,8 +6,8 @@ setup(
     description='Generic Python property system',
     url='https://github.com/zfzackfrost/proppy',
     author='Zachary Frost',
+    author_email='zfzackfrostdevel@gmail.com',
     license='MIT',
     packages=['proppy'],
-    scripts=['test/proppy-test'],
     install_requires=[]
 )
