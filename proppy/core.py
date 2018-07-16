@@ -7,13 +7,7 @@ from threading import Lock
 
 
 class MetaProppy(type):
-    """In order to use properties, a class must use this metaclass
-
-    Note:
-    Since this is a normal class you can use it with multiple inheritance.
-    You are free to extend `Proppy` and other classes as well at the same
-    time. Keep in mind, the typical rules of multiple inheritance in Python
-    still apply.
+    """In order to use properties, a class must use this metaclass.
 
     """
 
